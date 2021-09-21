@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using MyIMDB.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using MyIMDB.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

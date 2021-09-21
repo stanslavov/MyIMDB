@@ -2,9 +2,8 @@
 {
     using System.Diagnostics;
 
-    using MyIMDB.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using MyIMDB.Web.ViewModels;
 
     public class HomeController : BaseController
     {

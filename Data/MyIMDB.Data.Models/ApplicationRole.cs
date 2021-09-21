@@ -3,9 +3,8 @@ namespace MyIMDB.Data.Models
 {
     using System;
 
-    using MyIMDB.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using MyIMDB.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {

@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using MyIMDB.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using MyIMDB.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

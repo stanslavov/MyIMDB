@@ -1,9 +1,8 @@
 ﻿namespace MyIMDB.Web.Areas.Administration.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
     using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels.Administration.Dashboard;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController
     {

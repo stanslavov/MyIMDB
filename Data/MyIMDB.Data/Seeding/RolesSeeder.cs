@@ -4,11 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using MyIMDB.Common;
-    using MyIMDB.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using MyIMDB.Common;
+    using MyIMDB.Data.Models;
 
     internal class RolesSeeder : ISeeder
     {

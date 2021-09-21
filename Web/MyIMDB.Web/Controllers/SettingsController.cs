@@ -3,12 +3,11 @@
     using System;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Mvc;
     using MyIMDB.Data.Common.Repositories;
     using MyIMDB.Data.Models;
     using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController
     {

@@ -1,8 +1,8 @@
 ﻿namespace MyIMDB.Data.Configurations
 {
-    using MyIMDB.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using MyIMDB.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
