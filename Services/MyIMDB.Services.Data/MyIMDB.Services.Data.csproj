@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MyIMDB.Data.Common\MyIMDB.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MyIMDB.Data.Models\MyIMDB.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\MyIMDB.Web.ViewModels\MyIMDB.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MyIMDB.Services.Mapping\MyIMDB.Services.Mapping.csproj" />
   </ItemGroup>
 

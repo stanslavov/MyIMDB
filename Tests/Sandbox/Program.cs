@@ -16,7 +16,6 @@
     using MyIMDB.Data.Models;
     using MyIMDB.Data.Repositories;
     using MyIMDB.Data.Seeding;
-    using MyIMDB.Services.Data;
     using MyIMDB.Services.Messaging;
 
     public static class Program
@@ -50,8 +49,7 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
+            //Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
 
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
@@ -79,7 +77,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }

@@ -3,13 +3,39 @@
     using System.Diagnostics;
 
     using Microsoft.AspNetCore.Mvc;
+    using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels;
+    using MyIMDB.Web.ViewModels.Home;
 
+    // 1. Using ApplicationDbContext
+    // 2. Using Repositories(the Repository pattern)
+    // 3. Using Services
     public class HomeController : BaseController
     {
+        private readonly IGetCountsService countsService;
+
+        public HomeController(IGetCountsService countsService)
+        {
+            this.countsService = countsService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var countsDto = this.countsService.GetCounts();
+
+            /* var viewModel = this.mapper.Map<IndexViewModel>(counts);
+            OR */
+
+            var viewModel = new IndexViewModel
+            {
+                MoviesCount = countsDto.MoviesCount,
+                ActorsCount = countsDto.ActorsCount,
+                GenresCount = countsDto.GenresCount,
+                PgRatingsCount = countsDto.PgRatingsCount,
+            };
+
+            // var viewModel = this.countsService.GetCounts();
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

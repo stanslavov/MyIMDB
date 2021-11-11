@@ -36,4 +36,8 @@
     <ProjectReference Include="..\MyIMDB.Web.Infrastructure\MyIMDB.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\MyIMDB.Web.ViewModels\MyIMDB.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Views\Dashboard\" />
+  </ItemGroup>
 </Project>
