@@ -1,9 +1,10 @@
 ﻿namespace MyIMDB.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
     using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels.Movies;
-    using System.Threading.Tasks;
 
     public class MoviesController : Controller
     {
