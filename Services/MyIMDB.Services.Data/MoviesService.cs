@@ -1,11 +1,13 @@
 ﻿namespace MyIMDB.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using MyIMDB.Data.Common.Repositories;
     using MyIMDB.Data.Models;
+    using MyIMDB.Services.Mapping;
     using MyIMDB.Web.ViewModels.Movies;
 
     public class MoviesService : IMoviesService
@@ -21,7 +23,7 @@
             this.directorsRepository = directorsRepository;
         }
 
-        public async Task CreateAsync(CreateMovieInputModel input)
+        public async Task CreateAsync(CreateMovieInputModel input, string userId)
         {
             var director = this.directorsRepository.All().FirstOrDefault(x => x.FullName == input.Director.FullName);
 
@@ -39,7 +41,9 @@
                 Synopsis = input.Synopsis,
                 Director = director,
                 PgRatingId = input.PgRating,
+                GenreId = input.Genre,
                 Duration = TimeSpan.FromMinutes(input.Duration),
+                UserId = userId,
             };
 
             foreach (var inputActor in input.Cast)
@@ -63,6 +67,21 @@
 
             await this.moviesRepository.AddAsync(movie);
             await this.moviesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
+        {
+            var movies = this.moviesRepository.AllAsNoTracking()
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
+                .To<T>().ToList();
+
+            return movies;
+        }
+
+        public int GetCount()
+        {
+            return this.moviesRepository.All().Count();
         }
     }
 }

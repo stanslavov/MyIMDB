@@ -23,12 +23,16 @@
 
         public IEnumerable<KeyValuePair<string, string>> PgRatingsItems { get; set; }
 
-        public IEnumerable<MovieReviewInputModel> Review { get; set; }
+        public int Genre { get; set; }
 
-        public IEnumerable<MovieImageInputModel> Images { get; set; }
-
-        public IEnumerable<MovieGenreInputModel> Genre { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> GenreItems { get; set; }
 
         public IEnumerable<MovieActorInputModel> Cast { get; set; }
+
+        // public IEnumerable<MovieReviewInputModel> Review { get; set; }
+
+        // public IEnumerable<MovieImageInputModel> Images { get; set; }
+
+        // public IEnumerable<MovieGenreInputModel> Genre { get; set; }
     }
 }

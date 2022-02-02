@@ -9,9 +9,11 @@
     {
         public Movie()
         {
-            this.Genres = new HashSet<MovieGenre>();
+            // this.Genres = new HashSet<MovieGenre>();
+
+            // this.Reviews = new HashSet<Review>();
             this.Cast = new HashSet<MovieActor>();
-            this.Reviews = new HashSet<Review>();
+
             this.Images = new HashSet<Image>();
         }
 
@@ -33,12 +35,16 @@
 
         public virtual PgRating PgRating { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public int GenreId { get; set; }
+
+        public virtual Genre Genre { get; set; }
+
+        public virtual ICollection<MovieActor> Cast { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
 
-        public virtual ICollection<MovieGenre> Genres { get; set; }
+        // public virtual ICollection<Review> Reviews { get; set; }
 
-        public virtual ICollection<MovieActor> Cast { get; set; }
+        // public virtual ICollection<MovieGenre> Genres { get; set; }
     }
 }

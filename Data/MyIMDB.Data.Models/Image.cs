@@ -18,6 +18,8 @@
         ////Content of the image in the file system
         public string Extension { get; set; }
 
+        public string RemoteImageUrl { get; set; }
+
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

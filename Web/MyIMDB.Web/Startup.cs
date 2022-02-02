@@ -66,6 +66,7 @@
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<IPgRatingsService, PgRatingsService>();
             services.AddTransient<IMoviesService, MoviesService>();
+            services.AddTransient<IGenreService, GenreService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,7 @@ using MyIMDB.Data;
 namespace MyIMDB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211102161754_InitialCreate")]
+    [Migration("20220118160353_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -352,6 +352,9 @@ namespace MyIMDB.Data.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RemoteImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -383,6 +386,9 @@ namespace MyIMDB.Data.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -404,6 +410,8 @@ namespace MyIMDB.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DirectorId");
+
+                    b.HasIndex("GenreId");
 
                     b.HasIndex("IsDeleted");
 
@@ -434,28 +442,6 @@ namespace MyIMDB.Data.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("MovieActors");
-                });
-
-            modelBuilder.Entity("MyIMDB.Data.Models.MovieGenre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenreId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieGenres");
                 });
 
             modelBuilder.Entity("MyIMDB.Data.Models.PgRating", b =>
@@ -608,6 +594,12 @@ namespace MyIMDB.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MyIMDB.Data.Models.Genre", "Genre")
+                        .WithMany("Movies")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("MyIMDB.Data.Models.PgRating", "PgRating")
                         .WithMany("Movies")
                         .HasForeignKey("PgRatingId")
@@ -619,6 +611,8 @@ namespace MyIMDB.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("Director");
+
+                    b.Navigation("Genre");
 
                     b.Navigation("PgRating");
 
@@ -644,29 +638,10 @@ namespace MyIMDB.Data.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MyIMDB.Data.Models.MovieGenre", b =>
-                {
-                    b.HasOne("MyIMDB.Data.Models.Genre", "Genre")
-                        .WithMany("Genres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MyIMDB.Data.Models.Movie", "Movie")
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Genre");
-
-                    b.Navigation("Movie");
-                });
-
             modelBuilder.Entity("MyIMDB.Data.Models.Review", b =>
                 {
                     b.HasOne("MyIMDB.Data.Models.Movie", "Movie")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -701,18 +676,14 @@ namespace MyIMDB.Data.Migrations
 
             modelBuilder.Entity("MyIMDB.Data.Models.Genre", b =>
                 {
-                    b.Navigation("Genres");
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("MyIMDB.Data.Models.Movie", b =>
                 {
                     b.Navigation("Cast");
 
-                    b.Navigation("Genres");
-
                     b.Navigation("Images");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("MyIMDB.Data.Models.PgRating", b =>

@@ -39,8 +39,7 @@
 
         public DbSet<MovieActor> MovieActors { get; set; }
 
-        public DbSet<MovieGenre> MovieGenres { get; set; }
-
+        // public DbSet<MovieGenre> MovieGenres { get; set; }
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

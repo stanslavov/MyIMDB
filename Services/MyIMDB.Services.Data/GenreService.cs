@@ -6,18 +6,18 @@
     using MyIMDB.Data.Common.Repositories;
     using MyIMDB.Data.Models;
 
-    public class PgRatingsService : IPgRatingsService
+    public class GenreService : IGenreService
     {
-        private readonly IDeletableEntityRepository<PgRating> pgratingsRepository;
+        private readonly IDeletableEntityRepository<Genre> genresRepository;
 
-        public PgRatingsService(IDeletableEntityRepository<PgRating> pgratingsRepository)
+        public GenreService(IDeletableEntityRepository<Genre> genresRepository)
         {
-            this.pgratingsRepository = pgratingsRepository;
+            this.genresRepository = genresRepository;
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
         {
-            return this.pgratingsRepository.AllAsNoTracking()
+            return this.genresRepository.AllAsNoTracking()
                 .Select(x => new
                 {
                     x.Name,
