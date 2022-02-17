@@ -13,7 +13,7 @@
                 <img src="@movie.ImageUrl" width="100" class="mr-3 img-responsive">
             </div>
             <div class="flex-grow-1 ms-4">
-                <h5 class=" mt-0">@movie.Title</h5>
+                <h5 class=" mt-0"><a asp-action="ById" asp-route-id="@movie.Id">@movie.Title</a></h5>
                 @movie.GenreName
                 @*This is some content from a media component. You can replace this with any content and adjust it as needed.*@
             </div>

@@ -6,7 +6,7 @@
 }
 
 
-<form method="post" class="col-md-6 offset-md-3">
+<form method="post" class="col-md-6 offset-md-3" enctype="multipart/form-data">
     <h1>@this.ViewData["Title"]</h1>
     <div asp-validation-summary="All">
         <div class="form-group">
@@ -25,9 +25,9 @@
             <span asp-validation-for="Synopsis" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Duration"></label>
-            <input asp-for="Duration" class=" form-control" />
-            <span asp-validation-for="Duration" class="text-danger"></span>
+            <label asp-for="Runtime"></label>
+            <input asp-for="Runtime" class=" form-control" />
+            <span asp-validation-for="Runtime" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="PgRating"></label>
@@ -43,15 +43,15 @@
             <label asp-for="Cast"></label>
             <a class="btn btn-success" onclick="AddCast()">+</a>
         </div>
-        @*<div class="form-group">
-            <label asp-for="Review"></label>
-            <textarea asp-for="Review" class=" form-control" rows="5"></textarea>
-            <span asp-validation-for="Review" class="text-danger"></span>
-        </div>
         <div class="form-group">
             <label asp-for="Images"></label>
             <input asp-for="Images" class=" form-control" />
             <span asp-validation-for="Images" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="Review"></label>
+            <textarea asp-for="Review" class=" form-control" rows="5"></textarea>
+            <span asp-validation-for="Review" class="text-danger"></span>
         </div>*@
     </div>
     <input type="submit" class="btn btn-primary" />

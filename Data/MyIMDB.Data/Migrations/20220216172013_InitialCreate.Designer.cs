@@ -10,7 +10,7 @@ using MyIMDB.Data;
 namespace MyIMDB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220118160353_InitialCreate")]
+    [Migration("20220216172013_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -383,9 +383,6 @@ namespace MyIMDB.Data.Migrations
                     b.Property<int>("DirectorId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
@@ -397,6 +394,9 @@ namespace MyIMDB.Data.Migrations
 
                     b.Property<int>("PgRatingId")
                         .HasColumnType("int");
+
+                    b.Property<TimeSpan>("Runtime")
+                        .HasColumnType("time");
 
                     b.Property<string>("Synopsis")
                         .HasColumnType("nvarchar(max)");
@@ -498,7 +498,7 @@ namespace MyIMDB.Data.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rating")
+                    b.Property<int>("ReviewRating")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -516,6 +516,37 @@ namespace MyIMDB.Data.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MyIMDB.Data.Models.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte>("Value")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -655,6 +686,23 @@ namespace MyIMDB.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MyIMDB.Data.Models.Vote", b =>
+                {
+                    b.HasOne("MyIMDB.Data.Models.Movie", "Movie")
+                        .WithMany("Votes")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MyIMDB.Data.Models.ApplicationUser", "User")
+                        .WithMany("Votes")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyIMDB.Data.Models.Actor", b =>
                 {
                     b.Navigation("Cast");
@@ -667,6 +715,8 @@ namespace MyIMDB.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+
+                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("MyIMDB.Data.Models.Director", b =>
@@ -684,6 +734,8 @@ namespace MyIMDB.Data.Migrations
                     b.Navigation("Cast");
 
                     b.Navigation("Images");
+
+                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("MyIMDB.Data.Models.PgRating", b =>

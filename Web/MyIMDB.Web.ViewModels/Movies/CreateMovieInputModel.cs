@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
+
     public class CreateMovieInputModel
     {
         [Required]
@@ -16,8 +18,8 @@
         public MovieDirectorInputModel Director { get; set; }
 
         [Range(15, 5 * 60)]
-        [Display(Name = "Duration (in minutes)")]
-        public int Duration { get; set; }
+        [Display(Name = "Runtime (in minutes)")]
+        public int Runtime { get; set; }
 
         public int PgRating { get; set; }
 
@@ -28,6 +30,8 @@
         public IEnumerable<KeyValuePair<string, string>> GenreItems { get; set; }
 
         public IEnumerable<MovieActorInputModel> Cast { get; set; }
+
+        public IEnumerable<IFormFile> Images { get; set; }
 
         // public IEnumerable<MovieReviewInputModel> Review { get; set; }
 

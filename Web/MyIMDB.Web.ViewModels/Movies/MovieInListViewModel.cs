@@ -8,13 +8,11 @@
 
     public class MovieInListViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {
-        public int MovieId { get; set; }
+        public int Id { get; set; }
 
         public string ImageUrl { get; set; }
 
         public string Title { get; set; }
-
-        public int GenreId { get; set; }
 
         public string GenreName { get; set; }
 

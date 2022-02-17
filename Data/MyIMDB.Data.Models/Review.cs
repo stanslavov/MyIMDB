@@ -14,6 +14,6 @@
 
         public virtual Movie Movie { get; set; }
 
-        public int Rating { get; set; }
+        public int ReviewRating { get; set; }
     }
 }

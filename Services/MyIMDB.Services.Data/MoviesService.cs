@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -12,18 +13,22 @@
 
     public class MoviesService : IMoviesService
     {
+        private readonly string[] allowedExtensions = new[] { "jpg", "png", "gif" };
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
         private readonly IDeletableEntityRepository<Actor> actorsRepository;
         private readonly IDeletableEntityRepository<Director> directorsRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Actor> actorsRepository, IDeletableEntityRepository<Director> directorsRepository)
+        public MoviesService(
+            IDeletableEntityRepository<Movie> moviesRepository,
+            IDeletableEntityRepository<Actor> actorsRepository,
+            IDeletableEntityRepository<Director> directorsRepository)
         {
             this.moviesRepository = moviesRepository;
             this.actorsRepository = actorsRepository;
             this.directorsRepository = directorsRepository;
         }
 
-        public async Task CreateAsync(CreateMovieInputModel input, string userId)
+        public async Task CreateAsync(CreateMovieInputModel input, string userId, string imagePath)
         {
             var director = this.directorsRepository.All().FirstOrDefault(x => x.FullName == input.Director.FullName);
 
@@ -42,7 +47,7 @@
                 Director = director,
                 PgRatingId = input.PgRating,
                 GenreId = input.Genre,
-                Duration = TimeSpan.FromMinutes(input.Duration),
+                Runtime = TimeSpan.FromMinutes(input.Runtime),
                 UserId = userId,
             };
 
@@ -65,6 +70,33 @@
                 });
             }
 
+            // /wwwroot/images/movies/sdadas-213sdasda22-g232.jpg
+            // /wwwroot/images/movies/{id}.{ext}
+            Directory.CreateDirectory($"{imagePath}/movies/");
+
+            foreach (var image in input.Images)
+            {
+                var extension = Path.GetExtension(image.FileName).TrimStart('.');
+                if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
+                {
+                    throw new Exception($"Invalid image extension {extension}");
+                }
+
+                var dbImage = new Image
+                {
+                    UserId = userId,
+                    Movie = movie,
+                    Extension = extension,
+                };
+                movie.Images.Add(dbImage);
+
+                var physicalPath = $"{imagePath}/movies/{dbImage.Id}.{extension}";
+                using (Stream fileStream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+            }
+
             await this.moviesRepository.AddAsync(movie);
             await this.moviesRepository.SaveChangesAsync();
         }
@@ -77,6 +109,15 @@
                 .To<T>().ToList();
 
             return movies;
+        }
+
+        public T GetById<T>(int id)
+        {
+            var movie = this.moviesRepository.AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return movie;
         }
 
         public int GetCount()

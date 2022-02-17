@@ -1,0 +1,173 @@
+﻿@model MyIMDB.Web.ViewModels.Movies.MovieInfoViewModel
+@{
+    this.ViewData["Title"] = Model.Title;
+}
+
+<div class="single-recipe-layout1">
+    <h2 class="item-title">@this.ViewData["Title"]</h2>
+    <div class="ctg-name">@Model.GenreName</div>
+    <div class="row mb-4">
+        <div class="col-xl-9 col-12">
+            <ul class="entry-meta">
+                <li class="single-meta">
+                    <i class="far fa-calendar-alt"></i>
+                    @Model.CreatedOn.ToShortDateString()
+                </li>
+                <li class="single-meta">
+                    <i class="fas fa-user"></i> by
+                    @*@if (string.IsNullOrWhiteSpace(Model.UserUserName))
+                        {
+                            <a href="@Model.OriginalUrl" target="_blank">www.blabla.com</a>
+                        }
+                        else
+                        {
+                            <span>@Model.UserUserName</span>
+                        }*@
+                    @(Model.UserUserName ?? "Anonymous")
+                </li>
+                <li class="single-meta">
+                    <ul class="item-rating">    
+                        <li class="star-fill" data-vote="1"><i class="fas fa-star"></i></li>
+                        <li class="star-fill" data-vote="2"><i class="fas fa-star"></i></li>
+                        <li class="star-fill" data-vote="3"><i class="fas fa-star"></i></li>
+                        <li class="star-fill" data-vote="4"><i class="fas fa-star"></i></li>
+                        <li class="star-fill" data-vote="5"><i class="fas fa-star"></i></li>
+                        @*<li><span id="averageVoteValue">4.5</span><span> / 5</span> </li>*@
+                        <li><span id="averageVoteValue">@Model.AverageVote.ToString("0.0")</span><span> / 5</span> </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="item-figure">
+        <img class="img-fluid w-100" src="@Model.ImageUrl" alt="@Model.Title">
+    </div>
+    <div class="item-feature">
+        <ul>
+            <li>
+                <div class="feature-wrap">
+                    <div class="media">
+                        <div class="feature-icon">
+                            @*<i class="far fa-camera"></i>*@
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="media-body space-sm">
+                            <div class="feature-title">Director</div>
+                            <div class="feature-sub-title">@Model.DirectorFullName</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="feature-wrap">
+                    <div class="media">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="media-body space-sm">
+                            <div class="feature-title">Runtime</div>
+                            <div class="feature-sub-title">@Model.Runtime.TotalMinutes</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="feature-wrap">
+                    <div class="media">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="media-body space-sm">
+                            <div class="feature-title">PG Rating</div>
+                            <div class="feature-sub-title">@Model.PgRatingName</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="feature-wrap">
+                    <div class="media">
+                        <div class="feature-icon">
+                            @*<i class="far fa-eye"></i>*@
+                            <i class="fas fa-archive"></i>
+                        </div>
+                        <div class="media-body space-sm">
+                            <div class="feature-title">Similar movies</div>
+                            <div class="feature-sub-title">@Model.GenreMoviesCount</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="making-elements-wrap">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="item-description">
+                    @Model.Synopsis
+                </p>
+            </div>
+            <div class="col-xl-6 col-6">
+                <div class="ingridients-wrap">
+                    <h3 class="item-title"><i class="fas fa-list-ul"></i>Cast</h3>
+                    @foreach (var actor in Model.Cast)
+                    {
+                        <div class="checkbox checkbox-primary">
+                            <label for="checkbox1">
+                                @actor.ActorFullName
+                                StarRating: @actor.ActorStarRating
+                            </label>
+                        </div>
+                    }
+
+                    @*<div class="checkbox checkbox-primary">
+                            <input id="checkbox2" type="checkbox">
+                            <label for="checkbox2">4 cup roasted macadamia nuts</label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox3" type="checkbox">
+                            <label for="checkbox3">4 large eggs</label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox4" type="checkbox">
+                            <label for="checkbox4">4 cup roasted macadamia nuts</label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox5" type="checkbox">
+                            <label for="checkbox5">5 cup sifted all purpose flour</label>
+                        </div>
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox6" type="checkbox">
+                            <label for="checkbox6">8 cup roasted macadamia nuts</label>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post" id="antiForgeryForm"></form>
+@section Scripts {
+    <script>
+        $("li[data-vote]").each(function (el) {
+            $(this).click(function () {
+                var value = $(this).attr("data-vote");
+                var movieId = @Model.Id;
+                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+                var data = { movieId: movieId, value: value };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Votes",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': antiForgeryToken
+                    },
+                    success: function (data) {
+                        $('#averageVoteValue').html(data.averageVote.toFixed(1));
+                    },
+                    contentType: 'application/json',
+                });
+            })
+        });
+    </script>
+}

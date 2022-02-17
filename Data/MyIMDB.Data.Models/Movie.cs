@@ -13,7 +13,7 @@
 
             // this.Reviews = new HashSet<Review>();
             this.Cast = new HashSet<MovieActor>();
-
+            this.Votes = new HashSet<Vote>();
             this.Images = new HashSet<Image>();
         }
 
@@ -21,7 +21,7 @@
 
         public string Synopsis { get; set; }
 
-        public TimeSpan Duration { get; set; }
+        public TimeSpan Runtime { get; set; }
 
         public string UserId { get; set; }
 
@@ -35,6 +35,7 @@
 
         public virtual PgRating PgRating { get; set; }
 
+        // public int MovieRating { get; set; }
         public int GenreId { get; set; }
 
         public virtual Genre Genre { get; set; }
@@ -42,6 +43,8 @@
         public virtual ICollection<MovieActor> Cast { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
+
+        public virtual ICollection<Vote> Votes { get; set; }
 
         // public virtual ICollection<Review> Reviews { get; set; }
 
