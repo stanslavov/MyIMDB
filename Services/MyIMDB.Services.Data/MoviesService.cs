@@ -46,7 +46,7 @@
                 Synopsis = input.Synopsis,
                 Director = director,
                 PgRatingId = input.PgRating,
-                GenreId = input.Genre,
+                GenreId = input.GenreId,
                 Runtime = TimeSpan.FromMinutes(input.Runtime),
                 UserId = userId,
             };
@@ -123,6 +123,25 @@
         public int GetCount()
         {
             return this.moviesRepository.All().Count();
+        }
+
+        public IEnumerable<T> GetRandom<T>(int count)
+        {
+            return this.moviesRepository.All()
+                .OrderBy(x => Guid.NewGuid()).To<T>()
+                .Take(count)
+                .ToList();
+        }
+
+        public async Task UpdateAsync(int id, EditMovieInputModel input)
+        {
+            var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
+            movie.Title = input.Title;
+            movie.Synopsis = input.Synopsis;
+            movie.Runtime = TimeSpan.FromMinutes(input.Runtime);
+            movie.GenreId = input.GenreId;
+
+            await this.moviesRepository.SaveChangesAsync();
         }
     }
 }

@@ -13,10 +13,12 @@
     public class HomeController : BaseController
     {
         private readonly IGetCountsService countsService;
+        private readonly IMoviesService moviesService;
 
-        public HomeController(IGetCountsService countsService)
+        public HomeController(IGetCountsService countsService, IMoviesService moviesService)
         {
             this.countsService = countsService;
+            this.moviesService = moviesService;
         }
 
         public IActionResult Index()
@@ -32,6 +34,7 @@
                 ActorsCount = countsDto.ActorsCount,
                 GenresCount = countsDto.GenresCount,
                 PgRatingsCount = countsDto.PgRatingsCount,
+                RandomMovies = this.moviesService.GetRandom<IndexPageMovieViewModel>(2),
             };
 
             // var viewModel = this.countsService.GetCounts();

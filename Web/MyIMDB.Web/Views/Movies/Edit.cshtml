@@ -1,0 +1,35 @@
+﻿@model MyIMDB.Web.ViewModels.Movies.EditMovieInputModel
+@{
+    ViewData["Title"] = "Edit movie";
+    var genreItems = this.Model.GenreItems.Select(x => new SelectListItem(x.Value, x.Key));
+}
+
+
+<form method="post">
+    <h1>@this.ViewData["Title"]</h1>
+
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Synopsis"></label>
+        <textarea asp-for="Synopsis" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Synopsis" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Runtime"></label>
+        <input asp-for="Runtime" class="form-control" />
+        <span asp-validation-for="Runtime" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GenreId">Genre</label>
+        <select asp-for="GenreId" asp-items="genreItems" class="form-control"></select>
+        <span asp-validation-for="GenreId" class="text-danger"></span>
+    </div>
+
+    <hr />
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" class="btn btn-success" value="Save changes" />
+</form>

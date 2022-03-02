@@ -4,10 +4,26 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center row">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
-    <div class="col col-md-4 offset-md-4">
+    <div class="col-md-8">
+        <div class="row">
+            @foreach (var movie in this.Model.RandomMovies)
+            {
+                <div class="card col-md-6">
+                    <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Title ">
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Title</h5>
+                        <p class="card-text">@movie.GenreName</p>
+                        @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
+                        <a asp-controller="Movies" asp-action="ById" asp-route-id="@movie.Id" class="btn btn-primary">Go to movie</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col col-md-4">
         <p>We have:</p>
         <ul class="list-group">
             <li class="list-group-item bg-info">Movies: @Model.MoviesCount</li>
@@ -15,5 +31,5 @@
             <li class="list-group-item bg-info">Genres: @Model.GenresCount</li>
             <li class="list-group-item bg-light">PgRatings: @Model.PgRatingsCount</li>
         </ul>
-    </div>   
+    </div>
 </div>

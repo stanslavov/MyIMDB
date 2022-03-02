@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using MyIMDB.Common;
     using MyIMDB.Data.Models;
     using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels.Movies;
@@ -32,6 +33,29 @@
             this.genreService = genreService;
             this.userManager = userManager;
             this.environment = environment;
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult Edit(int id)
+        {
+            var input = this.moviesService.GetById<EditMovieInputModel>(id);
+            input.GenreItems = this.genreService.GetAllAsKeyValuePairs();
+            return this.View(input);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Edit(int id, EditMovieInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input.GenreItems = this.genreService.GetAllAsKeyValuePairs();
+                return this.View(input);
+            }
+
+            await this.moviesService.UpdateAsync(id, input);
+
+            return this.RedirectToAction(nameof(this.ById), new { id });
         }
 
         [Authorize]
@@ -67,7 +91,7 @@
                 input.PgRatingsItems = this.pgratingsService.GetAllAsKeyValuePairs();
                 input.GenreItems = this.genreService.GetAllAsKeyValuePairs();
                 return this.View(input);
-            } 
+            }
 
             // return this.Json(input);
 
