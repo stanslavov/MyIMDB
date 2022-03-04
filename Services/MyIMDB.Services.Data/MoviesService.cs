@@ -101,6 +101,13 @@
             await this.moviesRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
+            this.moviesRepository.Delete(movie);
+            await this.moviesRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             var movies = this.moviesRepository.AllAsNoTracking()
@@ -109,6 +116,18 @@
                 .To<T>().ToList();
 
             return movies;
+        }
+
+        public IEnumerable<T> GetByCast<T>(IEnumerable<int> actorIds)
+        {
+            var query = this.moviesRepository.All().AsQueryable();
+
+            foreach (var actorId in actorIds)
+            {
+                query = query.Where(x => x.Cast.Any(i => i.ActorId == actorId));
+            }
+
+            return query.To<T>().ToList();
         }
 
         public T GetById<T>(int id)

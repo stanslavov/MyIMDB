@@ -125,5 +125,13 @@
             var movie = this.moviesService.GetById<MovieInfoViewModel>(id);
             return this.View(movie);
         }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.moviesService.DeleteAsync(id);
+            return this.RedirectToAction(nameof(this.All));
+        }
     }
 }

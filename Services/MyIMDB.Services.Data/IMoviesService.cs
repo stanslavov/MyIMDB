@@ -18,5 +18,9 @@
         T GetById<T>(int id);
 
         Task UpdateAsync(int id, EditMovieInputModel input);
+
+        IEnumerable<T> GetByCast<T>(IEnumerable<int> actorIds);
+
+        Task DeleteAsync(int id);
     }
 }

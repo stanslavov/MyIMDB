@@ -1,0 +1,29 @@
+﻿@model MyIMDB.Web.ViewModels.SearchMovies.ListViewModel
+
+@{
+    this.ViewData["Title"] = "Search result";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+@if (!Model.Movies.Any())
+{
+    <p>No results found.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var movie in this.Model.Movies)
+        {
+            <div class="card col-md-3">
+                <img src="@movie.ImageUrl" class="card-img-top" alt="@movie.Title ">
+                <div class="card-body">
+                    <h5 class="card-title">@movie.Title</h5>
+                    <p class="card-text">@movie.GenreName</p>
+                    @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
+                    <a asp-controller="Movies" asp-action="ById" asp-route-id="@movie.Id" class="btn btn-primary">Go to movie</a>
+                </div>
+            </div>
+        }
+    </div>
+}

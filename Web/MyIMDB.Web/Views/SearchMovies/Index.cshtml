@@ -1,0 +1,19 @@
+﻿@model MyIMDB.Web.ViewModels.SearchMovies.SearchIndexViewModel
+@{ 
+    this.ViewData["Title"] = "Search movie by cast";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<form asp-action="List" method="get">
+    <div class="row">
+        @foreach (var actor in Model.Actors)
+        {
+        <div class="col-2 text-center">
+            <input id="actor_@actor.Id" type="checkbox" name="Actors" value="@actor.Id" class="form-control" />
+            <label for="actor_@actor.Id">@actor.FullName</label>
+        </div>
+        }
+    </div>
+    <button class="btn btn-primary">Search</button>
+</form>
