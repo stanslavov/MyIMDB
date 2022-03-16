@@ -19,6 +19,7 @@
     using MyIMDB.Services.Data;
     using MyIMDB.Services.Mapping;
     using MyIMDB.Services.Messaging;
+    using MyIMDB.Web.Hubs;
     using MyIMDB.Web.ViewModels;
 
     public class Startup
@@ -51,6 +52,7 @@
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
+            services.AddSignalR();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -114,6 +116,7 @@
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapRazorPages();
                     });
         }
