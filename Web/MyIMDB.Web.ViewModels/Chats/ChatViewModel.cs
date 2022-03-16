@@ -1,6 +1,9 @@
 ﻿namespace MyIMDB.Web.ViewModels.Chats
 {
-    public class ChatViewModel
+    using MyIMDB.Data.Models;
+    using MyIMDB.Services.Mapping;
+
+    public class ChatViewModel : IMapFrom<Movie>
     {
         public string Title { get; set; }
     }

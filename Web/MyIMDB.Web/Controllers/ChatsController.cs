@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Mvc;
     using MyIMDB.Services.Data;
     using MyIMDB.Web.ViewModels.Chats;
-    using MyIMDB.Web.ViewModels.Movies;
 
     public class ChatsController : Controller
     {
@@ -18,9 +17,7 @@
         [Authorize]
         public IActionResult Chat(int id)
         {
-            var viewModel = new ChatViewModel();
-            var movie = this.moviesService.GetById<MovieInfoViewModel>(id);
-            viewModel.Title = movie.Title;
+            var viewModel = this.moviesService.GetById<ChatViewModel>(id);
             return this.View(viewModel);
         }
     }
